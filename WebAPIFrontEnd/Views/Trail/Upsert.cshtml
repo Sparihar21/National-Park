@@ -1,0 +1,82 @@
+﻿@model WebAPIFrontEnd.Models.View_Model.TrailVm
+@{
+    ViewData["Title"] = "Upsert";
+    var title = Model.Trails.Id != 0 ? "Edit National Park" : "Add National Park";
+    var saveupdate = Model.Trails.Id != 0 ? "Update" : "Save";
+}
+
+<form method="post" enctype="multipart/form-data">
+    @if (Model.Trails.Id != 0)
+    {
+        <input type="hidden" asp-for="@Model.Trails.Id" />
+    }
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row border">
+        <div class="col-10 m-2 p-2">
+            <h2 class="text-secondary border-bottom">@title</h2>
+        </div>
+        <div class="col-8">
+            <div class="form-group row m-2 p-2">
+                <div class="col-4">
+                    <label asp-for="Trails.NationalParkId"></label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(m=>Model.Trails.NationalParkId,Model.nationalParkList,"Select National Park",new{@class="form-control"})
+                    <span asp-validation-for="Trails.NationalParkId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row m-2 p-2">
+                <div class="col-4">
+                    <label asp-for="Trails.Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Trails.Name" class="form-control" />
+                    <span asp-validation-for="Trails.Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row m-2 p-2">
+                <div class="col-4">
+                    <label asp-for="Trails.Distance"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Trails.Distance" class="form-control" />
+                    <span asp-validation-for="Trails.Distance" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row m-2 p-2">
+                <div class="col-4">
+                    <label asp-for="Trails.Elevation"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Trails.Elevation" class="form-control" />
+                    <span asp-validation-for="Trails.Elevation" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row m-2 p-2">
+                <div class="col-4">
+                    <label asp-for="Trails.Difficult"></label>
+                </div>
+                <div class="col-8">
+                    @*<input type="text" asp-for="Trails.Difficult" id="datePicker" class="form-control" />*@
+                    <select asp-items="Html.GetEnumSelectList<WebAPIFrontEnd.Models.Trails.DifficultyType>()" asp-for="Trails.Difficult" class="form-control"></select>
+                    <span asp-validation-for="Trails.Difficult" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row form-group m-2 p-2">
+                <div class="col-4 offset-4">
+                    <button class="btn btn-secondary form-control" type="submit">
+                        @saveupdate
+                    </button>
+                </div>
+                <div class="col-4">
+                    <a asp-action="Index" class="btn btn-primary form-control">
+                        Back To List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
